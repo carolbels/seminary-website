@@ -15,7 +15,9 @@
         </div>
         <h1 id="page-title">Seminário</h1>
         <div class="header-right">
-            <button id="home-icons" class="icon-btn" onclick="navigateTo('profile', 'Perfil')"><span id="header-avatar">👤</span></button>
+            <button id="home-icons" class="icon-btn" onclick="navigateTo('profile', 'Perfil')">
+                <span id="header-avatar">👤</span>
+            </button>
             <button id="settings-icon" class="icon-btn" onclick="navigateTo('settings', 'Configurações')">⚙️</button>
         </div>
     </header>
@@ -23,11 +25,27 @@
     <main id="app-content">
 
         <!-- ============ LOGIN ============ -->
-        <label>Senha</label>
-        <div class="password-wrap">
-    <input type="password" id="login-password" placeholder="Sua senha">
-    <button type="button" class="eye-btn" onclick="togglePassword('login-password', this)">👁️</button>
-        </div>
+        <section id="login" class="page active">
+            <div class="login-container">
+                <div class="login-logo">📖</div>
+                <h2>Seminário</h2>
+                <p class="login-subtitle">Entre com sua conta para continuar</p>
+                <div class="form-section">
+                    <label>Nome completo</label>
+                    <input type="text" id="login-name" placeholder="Seu nome completo">
+                    <label>Senha</label>
+                    <div class="password-wrap">
+                        <input type="password" id="login-password" placeholder="Sua senha">
+                        <button type="button" class="eye-btn" onclick="togglePassword('login-password', this)">👁️</button>
+                    </div>
+                    <button class="btn-save" onclick="doLogin()">Entrar</button>
+                    <p id="login-error" class="login-error" style="display:none;">❌ Nome ou senha incorretos.</p>
+                </div>
+                <p class="login-footer">
+                    Não tem conta? <a href="#" onclick="navigateTo('profile', 'Criar Conta')">Criar conta</a>
+                </p>
+            </div>
+        </section>
 
         <!-- ============ HOME ============ -->
         <section id="home" class="page">
@@ -67,15 +85,12 @@
                 </div>
                 <p class="preview-name" id="preview-name">Seu nome aparecerá aqui</p>
             </div>
-
             <div class="form-section">
                 <h4>📸 Minha foto</h4>
                 <p class="hint">Envie uma foto onde seu rosto apareça.</p>
                 <input type="file" id="photo-upload" accept="image/*" onchange="previewPhoto(event)">
             </div>
-
             <div class="or-divider"><span>ou</span></div>
-
             <div class="form-section">
                 <h4>🎨 Avatar do Velho Testamento</h4>
                 <p class="hint">Escolha um avatar para seu perfil.</p>
@@ -100,24 +115,25 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-section">
                 <h4>👤 Nome</h4>
                 <label>Nome completo <span class="required">*</span></label>
                 <input type="text" id="student-name" placeholder="Seu nome completo" oninput="updatePreview()">
             </div>
-
-            <label>Senha <span class="required">*</span></label>
-            <div class="password-wrap">
-    <input type="password" id="student-password" placeholder="Crie uma senha">
-    <button type="button" class="eye-btn" onclick="togglePassword('student-password', this)">👁️</button>
+            <div class="form-section">
+                <h4>🔒 Senha de acesso</h4>
+                <label>Senha <span class="required">*</span></label>
+                <div class="password-wrap">
+                    <input type="password" id="student-password" placeholder="Crie uma senha">
+                    <button type="button" class="eye-btn" onclick="togglePassword('student-password', this)">👁️</button>
+                </div>
+                <label>Confirmar senha <span class="required">*</span></label>
+                <div class="password-wrap">
+                    <input type="password" id="student-password-confirm" placeholder="Repita a senha">
+                    <button type="button" class="eye-btn" onclick="togglePassword('student-password-confirm', this)">👁️</button>
+                </div>
+                <a href="#" class="forgot-link" onclick="showForgotPassword()">Esqueceu sua senha?</a>
             </div>
-            <label>Confirmar senha <span class="required">*</span></label>
-            <div class="password-wrap">
-    <input type="password" id="student-password-confirm" placeholder="Repita a senha">
-    <button type="button" class="eye-btn" onclick="togglePassword('student-password-confirm', this)">👁️</button>
-            </div>
-
             <button class="btn-save" onclick="saveProfile()">💾 Salvar Perfil</button>
             <p id="profile-saved-msg" class="saved-msg" style="display:none;">✅ Perfil salvo com sucesso!</p>
         </section>

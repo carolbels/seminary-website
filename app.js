@@ -11,40 +11,6 @@ const avatars = [
 let selectedAvatar = null;
 let uploadedPhoto = null;
 
-// --- TOGGLE PASSWORD VISIBILITY ---
-function togglePassword(inputId, btn) {
-    var input = document.getElementById(inputId);
-    if (input.type === 'password') {
-        input.type = 'text';
-        btn.textContent = '🙈';
-    } else {
-        input.type = 'password';
-        btn.textContent = '👁️';
-    }
-}
-
-// --- UPDATE HEADER AVATAR ---
-function updateHeaderAvatar() {
-    var loggedIn = localStorage.getItem('seminario_logged_in');
-    var headerAvatar = document.getElementById('header-avatar');
-    if (!loggedIn) {
-        headerAvatar.innerHTML = '👤';
-        return;
-    }
-    var students = JSON.parse(localStorage.getItem('seminario_students') || '[]');
-    var student = students.find(function(s) { return s.id === loggedIn; });
-    if (student) {
-        if (student.photo) {
-            headerAvatar.innerHTML = '<img src="' + student.photo + '" alt="' + student.name + '">';
-        } else if (student.avatar) {
-            var avatar = avatars.find(function(a) { return a.id === student.avatar; });
-            if (avatar) {
-                headerAvatar.innerHTML = '<img src="' + avatar.file + '" alt="' + avatar.name + '">';
-            }
-        }
-    }
-}
-
 // --- MOCK DATA ---
 const scriptures = [
     { ref: "1 Néfi 3:7", text: "Eu irei e cumprirei as ordens do Senhor..." },
@@ -107,116 +73,55 @@ const makeupLessons = [
     { title: "Néfi e o Labão", date: "12 Ago", material: "pdf_aula_03.pdf" }
 ];
 
-// --- PROFILE FUNCTIONS ---
-function previewPhoto(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            uploadedPhoto = e.target.result;
-            selectedAvatar = null;
-            document.querySelectorAll('.avatar-option').forEach(el => el.classList.remove('selected'));
-            updatePreview();
-        };
-        reader.readAsDataURL(file);
-    }
-}
-
-function selectAvatar(avatarId) {
-    selectedAvatar = avatarId;
-    uploadedPhoto = null;
-    document.getElementById('photo-upload').value = '';
-    document.querySelectorAll('.avatar-option').forEach(el => el.classList.remove('selected'));
-    document.querySelector('[data-avatar="' + avatarId + '"]').classList.add('selected');
-    updatePreview();
-}
-
-function updatePreview() {
-    const preview = document.getElementById('preview-circle');
-    preview.innerHTML = '';
-    if (uploadedPhoto) {
-        preview.innerHTML = '<img src="' + uploadedPhoto + '" alt="Sua foto">';
-    } else if (selectedAvatar) {
-        const avatar = avatars.find(a => a.id === selectedAvatar);
-        preview.innerHTML = '<img src="' + avatar.file + '" alt="' + avatar.name + '">';
+// ============================================
+// PASSWORD VISIBILITY TOGGLE
+// ============================================
+function togglePassword(inputId, btn) {
+    var input = document.getElementById(inputId);
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
     } else {
-        preview.innerHTML = '<span class="preview-placeholder">📷</span>';
+        input.type = 'password';
+        btn.textContent = '👁️';
     }
-    const name = document.getElementById('student-name').value;
-    document.getElementById('preview-name').innerText = name || 'Seu nome aparecerá aqui';
 }
 
-function saveProfile() {
-    var name = document.getElementById('student-name').value.trim();
-    var password = document.getElementById('student-password').value;
-    var passwordConfirm = document.getElementById('student-password-confirm').value;
-    if (!uploadedPhoto && !selectedAvatar) { alert('Escolha uma foto ou um avatar.'); return; }
-    if (!name) { alert('Digite seu nome completo.'); return; }
-    if (!password) { alert('Crie uma senha.'); return; }
-    if (password !== passwordConfirm) { alert('As senhas não coincidem.'); return; }
-
+// ============================================
+// HEADER AVATAR
+// ============================================
+function updateHeaderAvatar() {
+    var loggedIn = localStorage.getItem('seminario_logged_in');
+    var headerAvatar = document.getElementById('header-avatar');
+    if (!loggedIn) {
+        headerAvatar.innerHTML = '👤';
+        return;
+    }
     var students = JSON.parse(localStorage.getItem('seminario_students') || '[]');
-    var exists = students.find(function(s) {
-        return s.name.toLowerCase() === name.toLowerCase();
-    });
-    if (exists) { alert('Já existe uma conta com esse nome. Faça login.'); return; }
-
-    var student = {
-        id: 'student_' + Date.now(),
-        photo: uploadedPhoto || null,
-        avatar: selectedAvatar || null,
-        displayName: uploadedPhoto ? 'photo' : 'avatar',
-        name: name,
-        password: btoa(password),
-        createdAt: new Date().toISOString()
-    };
-    students.push(student);
-    localStorage.setItem('seminario_students', JSON.stringify(students));
-    localStorage.setItem('seminario_logged_in', student.id);
-
-    var msg = document.getElementById('profile-saved-msg');
-    msg.style.display = 'block';
-    var msg = document.getElementById('profile-saved-msg');
-    msg.style.display = 'block';
-    setTimeout(function() {
-        msg.style.display = 'none';
-        updateHeaderAvatar();
-        navigateTo('home', 'Seminário');
-    }, 2000);
-}
-
-function showForgotPassword() {
-    document.getElementById('forgot-modal').style.display = 'flex';
-}
-function closeForgotModal() {
-    document.getElementById('forgot-modal').style.display = 'none';
-    document.getElementById('recovery-result').innerHTML = '';
-    document.getElementById('recovery-name').value = '';
-}
-function recoverPassword() {
-    const name = document.getElementById('recovery-name').value.trim();
-    if (!name) { alert('Digite seu nome completo.'); return; }
-    let students = JSON.parse(localStorage.getItem('seminario_students') || '[]');
-    const student = students.find(s => s.name.toLowerCase() === name.toLowerCase());
-    const result = document.getElementById('recovery-result');
+    var student = students.find(function(s) { return s.id === loggedIn; });
     if (student) {
-        result.innerHTML = '<div class="recovery-success"><p>✅ Conta encontrada!</p><p>Sua senha é: <strong>' + atob(student.password) + '</strong></p><p class="hint">⚠️ Em um app real, a senha seria enviada por e-mail.</p></div>';
-    } else {
-        result.innerHTML = '<p class="recovery-fail">❌ Nenhum aluno encontrado com esse nome.</p>';
+        if (student.photo) {
+            headerAvatar.innerHTML = '<img src="' + student.photo + '" alt="' + student.name + '">';
+        } else if (student.avatar) {
+            var avatar = avatars.find(function(a) { return a.id === student.avatar; });
+            if (avatar) {
+                headerAvatar.innerHTML = '<img src="' + avatar.file + '" alt="' + avatar.name + '">';
+            }
+        }
     }
 }
 
-// --- LOGIN ---
+// ============================================
+// LOGIN / LOGOUT
+// ============================================
 function doLogin() {
     var name = document.getElementById('login-name').value.trim();
     var password = document.getElementById('login-password').value;
     if (!name || !password) { alert('Preencha nome e senha.'); return; }
-
     var students = JSON.parse(localStorage.getItem('seminario_students') || '[]');
     var student = students.find(function(s) {
         return s.name.toLowerCase() === name.toLowerCase() && atob(s.password) === password;
     });
-
     if (student) {
         localStorage.setItem('seminario_logged_in', student.id);
         document.getElementById('login-error').style.display = 'none';
@@ -243,7 +148,103 @@ function doLogout() {
     navigateTo('login', 'Seminário');
 }
 
-// --- NAVIGATION ---
+// ============================================
+// PROFILE FUNCTIONS
+// ============================================
+function previewPhoto(event) {
+    var file = event.target.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            uploadedPhoto = e.target.result;
+            selectedAvatar = null;
+            document.querySelectorAll('.avatar-option').forEach(function(el) { el.classList.remove('selected'); });
+            updatePreview();
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function selectAvatar(avatarId) {
+    selectedAvatar = avatarId;
+    uploadedPhoto = null;
+    document.getElementById('photo-upload').value = '';
+    document.querySelectorAll('.avatar-option').forEach(function(el) { el.classList.remove('selected'); });
+    document.querySelector('[data-avatar="' + avatarId + '"]').classList.add('selected');
+    updatePreview();
+}
+
+function updatePreview() {
+    var preview = document.getElementById('preview-circle');
+    preview.innerHTML = '';
+    if (uploadedPhoto) {
+        preview.innerHTML = '<img src="' + uploadedPhoto + '" alt="Sua foto">';
+    } else if (selectedAvatar) {
+        var avatar = avatars.find(function(a) { return a.id === selectedAvatar; });
+        preview.innerHTML = '<img src="' + avatar.file + '" alt="' + avatar.name + '">';
+    } else {
+        preview.innerHTML = '<span class="preview-placeholder">📷</span>';
+    }
+    var name = document.getElementById('student-name').value;
+    document.getElementById('preview-name').innerText = name || 'Seu nome aparecerá aqui';
+}
+
+function saveProfile() {
+    var name = document.getElementById('student-name').value.trim();
+    var password = document.getElementById('student-password').value;
+    var passwordConfirm = document.getElementById('student-password-confirm').value;
+    if (!uploadedPhoto && !selectedAvatar) { alert('Escolha uma foto ou um avatar.'); return; }
+    if (!name) { alert('Digite seu nome completo.'); return; }
+    if (!password) { alert('Crie uma senha.'); return; }
+    if (password !== passwordConfirm) { alert('As senhas não coincidem.'); return; }
+    var students = JSON.parse(localStorage.getItem('seminario_students') || '[]');
+    var exists = students.find(function(s) { return s.name.toLowerCase() === name.toLowerCase(); });
+    if (exists) { alert('Já existe uma conta com esse nome. Faça login.'); return; }
+    var student = {
+        id: 'student_' + Date.now(),
+        photo: uploadedPhoto || null,
+        avatar: selectedAvatar || null,
+        displayName: uploadedPhoto ? 'photo' : 'avatar',
+        name: name,
+        password: btoa(password),
+        createdAt: new Date().toISOString()
+    };
+    students.push(student);
+    localStorage.setItem('seminario_students', JSON.stringify(students));
+    localStorage.setItem('seminario_logged_in', student.id);
+    var msg = document.getElementById('profile-saved-msg');
+    msg.style.display = 'block';
+    setTimeout(function() {
+        msg.style.display = 'none';
+        updateHeaderAvatar();
+        navigateTo('home', 'Seminário');
+    }, 2000);
+}
+
+function showForgotPassword() {
+    document.getElementById('forgot-modal').style.display = 'flex';
+}
+function closeForgotModal() {
+    document.getElementById('forgot-modal').style.display = 'none';
+    document.getElementById('recovery-result').innerHTML = '';
+    document.getElementById('recovery-name').value = '';
+}
+function recoverPassword() {
+    var name = document.getElementById('recovery-name').value.trim();
+    if (!name) { alert('Digite seu nome completo.'); return; }
+    var students = JSON.parse(localStorage.getItem('seminario_students') || '[]');
+    var student = students.find(function(s) { return s.name.toLowerCase() === name.toLowerCase(); });
+    var result = document.getElementById('recovery-result');
+    if (student) {
+        result.innerHTML = '<div class="recovery-success"><p>✅ Conta encontrada!</p><p>Sua senha é: <strong>' + atob(student.password) + '</strong></p><p class="hint">⚠️ Em um app real, a senha seria enviada por e-mail.</p></div>';
+    } else {
+        result.innerHTML = '<p class="recovery-fail">❌ Nenhum aluno encontrado com esse nome.</p>';
+    }
+}
+
+// ============================================
+// NAVIGATION
+// ============================================
 function navigateTo(pageId, title) {
     document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
     document.getElementById(pageId).classList.add('active');
@@ -272,87 +273,80 @@ function goBack() {
     navigateTo('home', 'Seminário');
 }
 
-// --- RENDER FUNCTIONS ---
+// ============================================
+// RENDER FUNCTIONS
+// ============================================
 function renderScriptures(filter) {
     filter = filter || "";
-    const grid = document.getElementById('scripture-grid');
+    var grid = document.getElementById('scripture-grid');
     grid.innerHTML = "";
-    scriptures.filter(s => s.ref.toLowerCase().includes(filter.toLowerCase())).forEach(s => {
+    scriptures.filter(function(s) { return s.ref.toLowerCase().includes(filter.toLowerCase()); }).forEach(function(s) {
         grid.innerHTML += '<div class="scripture-card"><strong>' + s.ref + '</strong><p>' + s.text + '</p></div>';
     });
 }
-
 function filterScriptures() {
-    const val = document.getElementById('scripture-search').value;
-    renderScriptures(val);
+    renderScriptures(document.getElementById('scripture-search').value);
 }
-
 function renderChallenges() {
-    const list = document.getElementById('challenges-list');
+    var list = document.getElementById('challenges-list');
     list.innerHTML = "";
-    challenges.forEach(c => {
+    challenges.forEach(function(c) {
         list.innerHTML += '<div class="item-list"><span>' + c.date + ' - ' + c.title + '</span><span class="badge ' + (c.status === 'Concluído' ? 'done' : 'pending') + '">' + c.status + '</span></div>';
     });
 }
-
 function renderLessons() {
-    const list = document.getElementById('weekly-lessons');
+    var list = document.getElementById('weekly-lessons');
     list.innerHTML = "";
-    weeklyLessons.forEach(l => {
+    weeklyLessons.forEach(function(l) {
         list.innerHTML += '<div class="item-list"><div><strong>' + l.day + '</strong>: ' + l.title + '</div><span class="badge ' + (l.status === 'Concluído' ? 'done' : 'pending') + '">' + l.status + '</span></div>';
     });
     document.getElementById('lesson-title').innerText = weeklyLessons[2].title;
     document.getElementById('lesson-ref').innerText = weeklyLessons[2].ref;
     document.getElementById('lesson-points').innerHTML = "<li>Entender o simbolismo da árvore</li><li>Identificar os 4 grupos de pessoas</li>";
 }
-
 function renderAttendance() {
     document.getElementById('stat-pres').innerText = attendanceData.present;
     document.getElementById('stat-abs').innerText = attendanceData.absent;
     document.getElementById('stat-rate').innerText = attendanceData.rate;
-    const grid = document.getElementById('calendar-grid');
+    var grid = document.getElementById('calendar-grid');
     grid.innerHTML = "";
     attendanceData.days.forEach(function(d, i) {
         var type = d === 'P' ? 'dot-present' : (d === 'A' ? 'dot-absent' : 'dot-late');
         grid.innerHTML += '<div class="day-dot ' + type + '">' + (i+1) + '</div>';
     });
 }
-
 function renderReading() {
-    const container = document.getElementById('reading-container');
+    var container = document.getElementById('reading-container');
     container.innerHTML = "";
     readingChunks.forEach(function(chunk) {
-        var acts = chunk.activities.map(a => '<div><input type="checkbox"> ' + a + '</div>').join("");
+        var acts = chunk.activities.map(function(a) { return '<div><input type="checkbox"> ' + a + '</div>'; }).join("");
         container.innerHTML += '<div class="card"><h3>' + chunk.title + '</h3><p>' + chunk.range + '</p><div class="progress-container"><div class="progress-bar" style="width: ' + chunk.progress + '%"></div></div><div class="activities">' + acts + '</div></div>';
     });
 }
-
 function renderMakeup() {
-    const list = document.getElementById('makeup-list');
+    var list = document.getElementById('makeup-list');
     list.innerHTML = "";
     makeupLessons.forEach(function(m) {
         list.innerHTML += '<div class="card"><strong>' + m.title + '</strong><p>Falta em: ' + m.date + '</p><button class="btn-save" style="margin-top:10px; padding:8px">Baixar Material</button></div>';
     });
 }
-
 function renderAnnouncements() {
-    const list = document.getElementById('announcements-list');
+    var list = document.getElementById('announcements-list');
     list.innerHTML = "";
     announcements.forEach(function(a) {
         list.innerHTML += '<div class="card"><small>' + a.date + '</small><h4>' + a.title + '</h4><p>' + a.content + '</p></div>';
     });
 }
 
-// --- ACTIONS ---
-function completeChallenge() {
-    alert("Parabéns! Desafio concluído.");
-}
+// ============================================
+// ACTIONS
+// ============================================
+function completeChallenge() { alert("Parabéns! Desafio concluído."); }
+function markLessonDone() { alert("Lição marcada como estudada!"); }
 
-function markLessonDone() {
-    alert("Lição marcada como estudada!");
-}
-
-// --- INITIALIZE ---
+// ============================================
+// INITIALIZE
+// ============================================
 window.onload = function() {
     checkLogin();
     renderScriptures();
