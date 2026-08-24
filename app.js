@@ -174,9 +174,125 @@ function markLessonDone() {
     alert("Lição marcada como estudada!");
 }
 
+// --- AVATAR DATA ---
+const avatars = [
+    { id: "moises", name: "Moisés",  file: "avatars/moises.png" },
+    { id: "davi",   name: "Davi",    file: "avatars/davi.png" },
+    { id: "ester",  name: "Ester",   file: "avatars/ester.png" },
+    { id: "rute",   name: "Rute",    file: "avatars/rute.png" },
+    { id: "jose",   name: "José",    file: "avatars/jose.png" },
+    { id: "rebeca", name: "Rebeca",  file: "avatars/rebeca.png" }
+];
+
+let selectedAvatar = null;
+let uploadedPhoto = null;
+
+// --- PHOTO PREVIEW ---
+function previewPhoto(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            uploadedPhoto = e.target.result;
+            selectedAvatar = null;
+            document.querySelectorAll('.avatar-option').forEach(el => el.classList.remove('selected'));
+            updatePreview();
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// --- AVATAR SELECTION ---
+function selectAvatar(avatarId) {
+    selectedAvatar = avatarId;
+    uploadedPhoto = null;
+    document.getElementById('photo-upload').value = '';
+    document.querySelectorAll('.avatar-option').forEach(el => el.classList.remove('selected'));
+    document.querySelector(`[data-avatar="${avatarId}"]`).classList.add('selected');
+    updatePreview();
+}
+
+// --- UPDATE LIVE PREVIEW ---
+function updatePreview() {
+    const preview = document.getElementById('preview-circle');
+    preview.innerHTML = '';
+
+    if (uploadedPhoto) {
+        preview.innerHTML = `<img src="${uploadedPhoto}" alt="Sua foto">`;
+    } else if (selectedAvatar) {
+        const avatar = avatars.find(a => a.id === selectedAvatar);
+        preview.innerHTML = `<img src="${avatar.file}" alt="${avatar.name}">`;
+    } else {
+        preview.innerHTML = '<span class="preview-placeholder">📷</span>';
+    }
+
+    const name = document.getElementById('student-name').value;
+    document.getElementById('preview-name').innerText = name || 'Seu nome aparecerá aqui';
+}
+
+// --- SAVE PROFILE ---
 function saveProfile() {
-    alert("Perfil atualizado com sucesso!");
-    goBack();
+    const name = document.getElementById('student-name').value.trim();
+    const password = document.getElementById('student-password').value;
+    const passwordConfirm = document.getElementById('student-password-confirm').value;
+
+    // Must have a photo OR an avatar
+    if (!uploadedPhoto && !selectedAvatar) {
+        alert('Escolha uma foto ou um avatar.');
+        return;
+    }
+    if (!name) { alert('Digite seu nome completo.'); return; }
+    if (!password) { alert('Crie uma senha.'); return; }
+    if (password !== passwordConfirm) { alert('As senhas não coincidem.'); return; }
+
+    const student = {
+        id: 'student_' + Date.now(),
+        photo: uploadedPhoto || null,
+        avatar: selectedAvatar || null,
+        displayName: uploadedPhoto ? 'photo' : 'avatar',
+        name: name,
+        password: btoa(password),  // Base64 — DEMO ONLY
+        createdAt: new Date().toISOString()
+    };
+
+    // Save to localStorage (demo — real app uses Firebase)
+    let students = JSON.parse(localStorage.getItem('seminario_students') || '[]');
+    students.push(student);
+    localStorage.setItem('seminario_students', JSON.stringify(students));
+    localStorage.setItem('seminario_current_user', student.id);
+
+    const msg = document.getElementById('profile-saved-msg');
+    msg.style.display = 'block';
+    setTimeout(() => { msg.style.display = 'none'; }, 3000);
+}
+
+// --- FORGOT PASSWORD ---
+function showForgotPassword() {
+    document.getElementById('forgot-modal').style.display = 'flex';
+}
+function closeForgotModal() {
+    document.getElementById('forgot-modal').style.display = 'none';
+    document.getElementById('recovery-result').innerHTML = '';
+    document.getElementById('recovery-name').value = '';
+}
+function recoverPassword() {
+    const name = document.getElementById('recovery-name').value.trim();
+    if (!name) { alert('Digite seu nome completo.'); return; }
+
+    let students = JSON.parse(localStorage.getItem('seminario_students') || '[]');
+    const student = students.find(s => s.name.toLowerCase() === name.toLowerCase());
+    const result = document.getElementById('recovery-result');
+
+    if (student) {
+        result.innerHTML = `
+            <div class="recovery-success">
+                <p>✅ Conta encontrada!</p>
+                <p>Sua senha é: <strong>${atob(student.password)}</strong></p>
+                <p class="hint">⚠️ Em um app real, a senha seria enviada por e-mail.</p>
+            </div>`;
+    } else {
+        result.innerHTML = `<p class="recovery-fail">❌ Nenhum aluno encontrado com esse nome.</p>`;
+    }
 }
 
 // --- INITIALIZE ---
