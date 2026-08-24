@@ -1,14 +1,10 @@
-// 
-// SEMINÁRIO — DADOS E LÓGICA
-// 
-
 // --- AVATAR DATA ---
 const avatars = [
-    { id: "moises", name: "Moisés",  file: "avatars/moises.png" },<br/>
-    { id: "davi",   name: "Davi",    file: "avatars/davi.png" },<br/>
-    { id: "ester",  name: "Ester",   file: "avatars/ester.png" },<br/>
-    { id: "rute",   name: "Rute",    file: "avatars/rute.png" },<br/>
-    { id: "jose",   name: "José",    file: "avatars/jose.png" },<br/>
+    { id: "moises", name: "Moisés",  file: "avatars/moises.png" },
+    { id: "davi",   name: "Davi",    file: "avatars/davi.png" },
+    { id: "ester",  name: "Ester",   file: "avatars/ester.png" },
+    { id: "rute",   name: "Rute",    file: "avatars/rute.png" },
+    { id: "jose",   name: "José",    file: "avatars/jose.png" },
     { id: "rebeca", name: "Rebeca",  file: "avatars/rebeca.png" }
 ];
 
@@ -17,70 +13,67 @@ let uploadedPhoto = null;
 
 // --- MOCK DATA ---
 const scriptures = [
-    { ref: "1 Néfi 3:7", text: "Eu irei e cumprirei as ordens do Senhor..." },<br/>
-    { ref: "2 Néfi 2:25", text: "Adão caiu para que os homens existissem..." },<br/>
-    { ref: "2 Néfi 31:19-20", text: "Prossegui com firmeza em Cristo..." },<br/>
-    { ref: "Mosias 2:17", text: "Quando estais a serviço de vosso próximo..." },<br/>
-    { ref: "Mosias 3:19", text: "O homem natural é inimigo de Deus..." },<br/>
-    { ref: "Alma 7:11-13", text: "E ele seguirá, sofrendo dores e aflições..." },<br/>
-    { ref: "Alma 32:21", text: "Fé não é ter um conhecimento perfeito..." },<br/>
-    { ref: "Helamã 5:12", text: "É sobre a rocha de nosso Redentor..." },<br/>
-    { ref: "3 Néfi 11:10-11", text: "Eis que eu sou Jesus Cristo..." },<br/>
-    { ref: "3 Néfi 27:27", text: "Que tipo de homens devereis ser?..." },<br/>
-    { ref: "Éter 12:6", text: "Não recebeis testemunho senão depois..." },<br/>
-    { ref: "Morôni 10:4-5", text: "Pergunteis a Deus, o Pai Eterno..." },<br/>
-    { ref: "Tiago 1:5-6", text: "Se algum de vós tem falta de sabedoria..." },<br/>
-    { ref: "João 14:15", text: "Se me amais, guardai os meus mandamentos." },<br/>
-    { ref: "Gálatas 5:22-23", text: "Mas o fruto do Espírito é amor, gozo..." },<br/>
-    { ref: "Efésios 2:19-20", text: "Edificados sobre o fundamento dos apóstolos..." },<br/>
-    { ref: "2 Timóteo 3:15-17", text: "Toda a Escritura é inspirada por Deus..." },<br/>
-    { ref: "Hebreus 12:9", text: "Sujeitemo-nos muito mais ao Pai..." },<br/>
-    { ref: "Tiago 2:17-18", text: "A fé, se não tiver as obras, é morta..." },<br/>
-    { ref: "1 Pedro 4:6", text: "Pregado o evangelho também aos mortos..." },<br/>
-    { ref: "Apocalipse 20:12", text: "E os mortos foram julgados pelas coisas..." },<br/>
-    { ref: "Mateus 5:14-16", text: "Vós sois a luz do mundo..." },<br/>
-    { ref: "Mateus 11:28-30", text: "Vinde a mim, todos os que estais cansados..." },<br/>
+    { ref: "1 Néfi 3:7", text: "Eu irei e cumprirei as ordens do Senhor..." },
+    { ref: "2 Néfi 2:25", text: "Adão caiu para que os homens existissem..." },
+    { ref: "2 Néfi 31:19-20", text: "Prossegui com firmeza em Cristo..." },
+    { ref: "Mosias 2:17", text: "Quando estais a serviço de vosso próximo..." },
+    { ref: "Mosias 3:19", text: "O homem natural é inimigo de Deus..." },
+    { ref: "Alma 7:11-13", text: "E ele seguirá, sofrendo dores e aflições..." },
+    { ref: "Alma 32:21", text: "Fé não é ter um conhecimento perfeito..." },
+    { ref: "Helamã 5:12", text: "É sobre a rocha de nosso Redentor..." },
+    { ref: "3 Néfi 11:10-11", text: "Eis que eu sou Jesus Cristo..." },
+    { ref: "3 Néfi 27:27", text: "Que tipo de homens devereis ser?..." },
+    { ref: "Éter 12:6", text: "Não recebeis testemunho senão depois..." },
+    { ref: "Morôni 10:4-5", text: "Pergunteis a Deus, o Pai Eterno..." },
+    { ref: "Tiago 1:5-6", text: "Se algum de vós tem falta de sabedoria..." },
+    { ref: "João 14:15", text: "Se me amais, guardai os meus mandamentos." },
+    { ref: "Gálatas 5:22-23", text: "Mas o fruto do Espírito é amor, gozo..." },
+    { ref: "Efésios 2:19-20", text: "Edificados sobre o fundamento dos apóstolos..." },
+    { ref: "2 Timóteo 3:15-17", text: "Toda a Escritura é inspirada por Deus..." },
+    { ref: "Hebreus 12:9", text: "Sujeitemo-nos muito mais ao Pai..." },
+    { ref: "Tiago 2:17-18", text: "A fé, se não tiver as obras, é morta..." },
+    { ref: "1 Pedro 4:6", text: "Pregado o evangelho também aos mortos..." },
+    { ref: "Apocalipse 20:12", text: "E os mortos foram julgados pelas coisas..." },
+    { ref: "Mateus 5:14-16", text: "Vós sois a luz do mundo..." },
+    { ref: "Mateus 11:28-30", text: "Vinde a mim, todos os que estais cansados..." },
     { ref: "Mateus 16:15-19", text: "Tu és o Cristo, o Filho do Deus vivo..." }
 ];
 
 const challenges = [
-    { date: "23 Ago", title: "Oração Matinal", status: "Concluído" },<br/>
-    { date: "24 Ago", title: "Escritura em Família", status: "Pendente" },<br/>
+    { date: "23 Ago", title: "Oração Matinal", status: "Concluído" },
+    { date: "24 Ago", title: "Escritura em Família", status: "Pendente" },
     { date: "25 Ago", title: "Ato de Serviço", status: "Pendente" }
 ];
 
 const weeklyLessons = [
-    { day: "Seg", title: "Introdução ao Livro de Mórmon", ref: "Página de Título", status: "Concluído" },<br/>
-    { day: "Ter", title: "O Sonho de Leí", ref: "1 Néfi 8", status: "Concluído" },<br/>
-    { day: "Qua", title: "A Árvore da Vida", ref: "1 Néfi 11", status: "Pendente" },<br/>
-    { day: "Qui", title: "O Grande Abismo", ref: "1 Néfi 12", status: "Pendente" },<br/>
+    { day: "Seg", title: "Introdução ao Livro de Mórmon", ref: "Página de Título", status: "Concluído" },
+    { day: "Ter", title: "O Sonho de Leí", ref: "1 Néfi 8", status: "Concluído" },
+    { day: "Qua", title: "A Árvore da Vida", ref: "1 Néfi 11", status: "Pendente" },
+    { day: "Qui", title: "O Grande Abismo", ref: "1 Néfi 12", status: "Pendente" },
     { day: "Sex", title: "Revisão Semanal", ref: "Resumo", status: "Pendente" }
 ];
 
 const announcements = [
-    { date: "20 Ago", title: "Festa de Encerramento", content: "Nossa festa será no próximo sábado às 18h na capela." },<br/>
+    { date: "20 Ago", title: "Festa de Encerramento", content: "Nossa festa será no próximo sábado às 18h na capela." },
     { date: "18 Ago", title: "Novos Manuais", content: "Os manuais do próximo semestre já estão disponíveis para retirada." }
 ];
 
 const attendanceData = {
-    present: 18, absent: 2, late: 1, rate: "86%",<br/>
+    present: 18, absent: 2, late: 1, rate: "86%",
     days: ["P", "P", "A", "P", "P", "L", "P", "P", "P", "A", "P", "P", "P", "P", "P", "P", "P", "P", "P", "P", "P"]
 };
 
 const readingChunks = [
-    { title: "Bloco 1", range: "1 Néfi 1 - 1 Néfi 15", progress: 65, activities: ["Resumo cap 8", "Mapa da jornada", "Lista de símbolos"] },<br/>
+    { title: "Bloco 1", range: "1 Néfi 1 - 1 Néfi 15", progress: 65, activities: ["Resumo cap 8", "Mapa da jornada", "Lista de símbolos"] },
     { title: "Bloco 2", range: "1 Néfi 16 - 2 Néfi 5", progress: 20, activities: ["O Liahona", "Construção do navio", "Morte de Leí"] }
 ];
 
 const makeupLessons = [
-    { title: "A Visão de Leí", date: "15 Ago", material: "pdf_aula_05.pdf" },<br/>
+    { title: "A Visão de Leí", date: "15 Ago", material: "pdf_aula_05.pdf" },
     { title: "Néfi e o Labão", date: "12 Ago", material: "pdf_aula_03.pdf" }
 ];
 
-// 
-// PROFILE FUNCTIONS
-// 
-
+// --- PROFILE FUNCTIONS ---
 function previewPhoto(event) {
     const file = event.target.files[0];
     if (file) {
@@ -128,12 +121,12 @@ function saveProfile() {
     if (!password) { alert('Crie uma senha.'); return; }
     if (password !== passwordConfirm) { alert('As senhas não coincidem.'); return; }
     const student = {
-        id: 'student_' + Date.now(),<br/>
-        photo: uploadedPhoto || null,<br/>
-        avatar: selectedAvatar || null,<br/>
-        displayName: uploadedPhoto ? 'photo' : 'avatar',<br/>
-        name: name,<br/>
-        password: btoa(password),<br/>
+        id: 'student_' + Date.now(),
+        photo: uploadedPhoto || null,
+        avatar: selectedAvatar || null,
+        displayName: uploadedPhoto ? 'photo' : 'avatar',
+        name: name,
+        password: btoa(password),
         createdAt: new Date().toISOString()
     };
     let students = JSON.parse(localStorage.getItem('seminario_students') || '[]');
@@ -142,7 +135,7 @@ function saveProfile() {
     localStorage.setItem('seminario_current_user', student.id);
     const msg = document.getElementById('profile-saved-msg');
     msg.style.display = 'block';
-    setTimeout(() => { msg.style.display = 'none'; }, 3000);
+    setTimeout(function() { msg.style.display = 'none'; }, 3000);
 }
 
 function showForgotPassword() {
@@ -166,10 +159,7 @@ function recoverPassword() {
     }
 }
 
-// 
-// NAVIGATION
-// 
-
+// --- NAVIGATION ---
 function navigateTo(pageId, title) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(pageId).classList.add('active');
@@ -193,10 +183,7 @@ function goBack() {
     navigateTo('home', 'Seminário');
 }
 
-// 
-// RENDER FUNCTIONS
-// 
-
+// --- RENDER FUNCTIONS ---
 function renderScriptures(filter) {
     filter = filter || "";
     const grid = document.getElementById('scripture-grid');
@@ -227,8 +214,7 @@ function renderLessons() {
     });
     document.getElementById('lesson-title').innerText = weeklyLessons[2].title;
     document.getElementById('lesson-ref').innerText = weeklyLessons[2].ref;
-    const points = document.getElementById('lesson-points');
-    points.innerHTML = "<li>Entender o simbolismo da árvore</li><li>Identificar os 4 grupos de pessoas</li>";
+    document.getElementById('lesson-points').innerHTML = "<li>Entender o simbolismo da árvore</li><li>Identificar os 4 grupos de pessoas</li>";
 }
 
 function renderAttendance() {
@@ -237,8 +223,8 @@ function renderAttendance() {
     document.getElementById('stat-rate').innerText = attendanceData.rate;
     const grid = document.getElementById('calendar-grid');
     grid.innerHTML = "";
-    attendanceData.days.forEach((d, i) => {
-        let type = d === 'P' ? 'dot-present' : (d === 'A' ? 'dot-absent' : 'dot-late');
+    attendanceData.days.forEach(function(d, i) {
+        var type = d === 'P' ? 'dot-present' : (d === 'A' ? 'dot-absent' : 'dot-late');
         grid.innerHTML += '<div class="day-dot ' + type + '">' + (i+1) + '</div>';
     });
 }
@@ -246,8 +232,8 @@ function renderAttendance() {
 function renderReading() {
     const container = document.getElementById('reading-container');
     container.innerHTML = "";
-    readingChunks.forEach(chunk => {
-        let acts = chunk.activities.map(a => '<div><input type="checkbox"> ' + a + '</div>').join("");
+    readingChunks.forEach(function(chunk) {
+        var acts = chunk.activities.map(a => '<div><input type="checkbox"> ' + a + '</div>').join("");
         container.innerHTML += '<div class="card"><h3>' + chunk.title + '</h3><p>' + chunk.range + '</p><div class="progress-container"><div class="progress-bar" style="width: ' + chunk.progress + '%"></div></div><div class="activities">' + acts + '</div></div>';
     });
 }
@@ -255,7 +241,7 @@ function renderReading() {
 function renderMakeup() {
     const list = document.getElementById('makeup-list');
     list.innerHTML = "";
-    makeupLessons.forEach(m => {
+    makeupLessons.forEach(function(m) {
         list.innerHTML += '<div class="card"><strong>' + m.title + '</strong><p>Falta em: ' + m.date + '</p><button class="btn-save" style="margin-top:10px; padding:8px">Baixar Material</button></div>';
     });
 }
@@ -263,15 +249,12 @@ function renderMakeup() {
 function renderAnnouncements() {
     const list = document.getElementById('announcements-list');
     list.innerHTML = "";
-    announcements.forEach(a => {
+    announcements.forEach(function(a) {
         list.innerHTML += '<div class="card"><small>' + a.date + '</small><h4>' + a.title + '</h4><p>' + a.content + '</p></div>';
     });
 }
 
-// 
-// ACTIONS
-// 
-
+// --- ACTIONS ---
 function completeChallenge() {
     alert("Parabéns! Desafio concluído.");
 }
@@ -280,10 +263,7 @@ function markLessonDone() {
     alert("Lição marcada como estudada!");
 }
 
-// 
-// INITIALIZE
-// 
-
+// --- INITIALIZE ---
 window.onload = function() {
     renderScriptures();
     renderChallenges();
