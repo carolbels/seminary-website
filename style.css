@@ -205,3 +205,37 @@ h4 { margin: 16px 0 8px; font-size: 16px; }
 .activities { margin-top: 8px; }
 .activities div { padding: 6px 0; font-size: 14px; display: flex; align-items: center; gap: 8px; }
 .activities input { width: auto; margin: 0; }
+
+/* ===== LOGIN ===== */
+.login-container {
+    display: flex; flex-direction: column; align-items: center;
+    padding-top: 40px;
+}
+.login-logo {
+    font-size: 48px; margin-bottom: 8px;
+}
+.login-container h2 {
+    font-size: 24px; font-weight: 700; color: var(--primary);
+}
+.login-subtitle {
+    font-size: 14px; color: var(--text-secondary); margin-bottom: 24px;
+}
+.login-container .form-section {
+    width: 100%;
+}
+.login-error {
+    text-align: center; color: var(--danger); font-size: 14px; margin-top: 8px;
+}
+.login-footer {
+    text-align: center; font-size: 14px; color: var(--text-secondary); margin-top: 16px;
+}
+.login-footer a {
+    color: var(--primary); font-weight: 600; text-decoration: none;
+}
+
+/* ===== LOGOUT BUTTON ===== */
+.logout-btn {
+    background: none; border: none; color: var(--danger);
+    font-size: 14px; cursor: pointer; padding: 8px; margin-top: 24px;
+    width: 100%; text-align: center;
+}

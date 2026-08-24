@@ -113,14 +113,21 @@ function updatePreview() {
 }
 
 function saveProfile() {
-    const name = document.getElementById('student-name').value.trim();
-    const password = document.getElementById('student-password').value;
-    const passwordConfirm = document.getElementById('student-password-confirm').value;
+    var name = document.getElementById('student-name').value.trim();
+    var password = document.getElementById('student-password').value;
+    var passwordConfirm = document.getElementById('student-password-confirm').value;
     if (!uploadedPhoto && !selectedAvatar) { alert('Escolha uma foto ou um avatar.'); return; }
     if (!name) { alert('Digite seu nome completo.'); return; }
     if (!password) { alert('Crie uma senha.'); return; }
     if (password !== passwordConfirm) { alert('As senhas não coincidem.'); return; }
-    const student = {
+
+    var students = JSON.parse(localStorage.getItem('seminario_students') || '[]');
+    var exists = students.find(function(s) {
+        return s.name.toLowerCase() === name.toLowerCase();
+    });
+    if (exists) { alert('Já existe uma conta com esse nome. Faça login.'); return; }
+
+    var student = {
         id: 'student_' + Date.now(),
         photo: uploadedPhoto || null,
         avatar: selectedAvatar || null,
@@ -129,13 +136,16 @@ function saveProfile() {
         password: btoa(password),
         createdAt: new Date().toISOString()
     };
-    let students = JSON.parse(localStorage.getItem('seminario_students') || '[]');
     students.push(student);
     localStorage.setItem('seminario_students', JSON.stringify(students));
-    localStorage.setItem('seminario_current_user', student.id);
-    const msg = document.getElementById('profile-saved-msg');
+    localStorage.setItem('seminario_logged_in', student.id);
+
+    var msg = document.getElementById('profile-saved-msg');
     msg.style.display = 'block';
-    setTimeout(function() { msg.style.display = 'none'; }, 3000);
+    setTimeout(function() {
+        msg.style.display = 'none';
+        navigateTo('home', 'Seminário');
+    }, 2000);
 }
 
 function showForgotPassword() {
@@ -159,18 +169,56 @@ function recoverPassword() {
     }
 }
 
+// --- LOGIN ---
+function doLogin() {
+    var name = document.getElementById('login-name').value.trim();
+    var password = document.getElementById('login-password').value;
+    if (!name || !password) { alert('Preencha nome e senha.'); return; }
+
+    var students = JSON.parse(localStorage.getItem('seminario_students') || '[]');
+    var student = students.find(function(s) {
+        return s.name.toLowerCase() === name.toLowerCase() && atob(s.password) === password;
+    });
+
+    if (student) {
+        localStorage.setItem('seminario_logged_in', student.id);
+        document.getElementById('login-error').style.display = 'none';
+        document.getElementById('login-name').value = '';
+        document.getElementById('login-password').value = '';
+        navigateTo('home', 'Seminário');
+    } else {
+        document.getElementById('login-error').style.display = 'block';
+    }
+}
+
+function checkLogin() {
+    var loggedIn = localStorage.getItem('seminario_logged_in');
+    if (loggedIn) {
+        navigateTo('home', 'Seminário');
+    }
+}
+
+function doLogout() {
+    localStorage.removeItem('seminario_logged_in');
+    navigateTo('login', 'Seminário');
+}
+
 // --- NAVIGATION ---
 function navigateTo(pageId, title) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
     document.getElementById(pageId).classList.add('active');
     document.getElementById('page-title').innerText = title;
-    const backBtn = document.getElementById('back-btn');
-    const homeIcons = document.getElementById('home-icons');
-    const settingsIcon = document.getElementById('settings-icon');
+    var backBtn = document.getElementById('back-btn');
+    var homeIcons = document.getElementById('home-icons');
+    var settingsIcon = document.getElementById('settings-icon');
     if (pageId === 'home') {
         backBtn.classList.add('hidden');
         homeIcons.classList.remove('hidden');
         settingsIcon.classList.remove('hidden');
+    } else if (pageId === 'login') {
+        backBtn.classList.add('hidden');
+        homeIcons.classList.add('hidden');
+        settingsIcon.classList.add('hidden');
     } else {
         backBtn.classList.remove('hidden');
         homeIcons.classList.add('hidden');
@@ -265,6 +313,7 @@ function markLessonDone() {
 
 // --- INITIALIZE ---
 window.onload = function() {
+    checkLogin();
     renderScriptures();
     renderChallenges();
     renderLessons();
