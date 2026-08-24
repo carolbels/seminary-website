@@ -22,6 +22,30 @@
 
     <main id="app-content">
 
+        <!-- ============ LOGIN ============ -->
+        <section id="login" class="page active">
+    <div class="login-container">
+        <div class="login-logo">📖</div>
+        <h2>Seminário</h2>
+        <p class="login-subtitle">Entre com sua conta para continuar</p>
+
+        <div class="form-section">
+            <label>Nome completo</label>
+            <input type="text" id="login-name" placeholder="Seu nome completo">
+
+            <label>Senha</label>
+            <input type="password" id="login-password" placeholder="Sua senha">
+
+            <button class="btn-save" onclick="doLogin()">Entrar</button>
+            <p id="login-error" class="login-error" style="display:none;">❌ Nome ou senha incorretos.</p>
+        </div>
+
+        <p class="login-footer">
+            Não tem conta? <a href="#" onclick="navigateTo('profile', 'Criar Conta')">Criar conta</a>
+        </p>
+    </div>
+        </section>
+
         <!-- ============ HOME ============ -->
         <section id="home" class="page active">
             <div class="hero-card primary" onclick="navigateTo('challenge', 'Desafio do Dia')">
