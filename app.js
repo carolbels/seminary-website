@@ -189,36 +189,108 @@ function updatePreview() {
     document.getElementById('preview-name').innerText = name || 'Seu nome aparecerá aqui';
 }
 
+// --- LOAD PROFILE FOR EDITING ---
+function loadProfileForEditing() {
+    var loggedIn = localStorage.getItem('seminario_logged_in');
+    if (!loggedIn) return;
+
+    var students = JSON.parse(localStorage.getItem('seminario_students') || '[]');
+    var student = students.find(function(s) { return s.id === loggedIn; });
+    if (!student) return;
+
+    // Load existing name
+    document.getElementById('student-name').value = student.name;
+
+    // Load existing photo or avatar
+    if (student.photo) {
+        uploadedPhoto = student.photo;
+        selectedAvatar = null;
+        document.querySelectorAll('.avatar-option').forEach(function(el) { el.classList.remove('selected'); });
+    } else if (student.avatar) {
+        selectedAvatar = student.avatar;
+        uploadedPhoto = null;
+        document.querySelectorAll('.avatar-option').forEach(function(el) { el.classList.remove('selected'); });
+        var avatarEl = document.querySelector('[data-avatar="' + student.avatar + '"]');
+        if (avatarEl) avatarEl.classList.add('selected');
+    }
+
+    updatePreview();
+
+    // Change button text to "Atualizar"
+    document.getElementById('profile-save-btn').innerText = '🔄 Atualizar Perfil';
+}
+
 function saveProfile() {
     var name = document.getElementById('student-name').value.trim();
     var password = document.getElementById('student-password').value;
     var passwordConfirm = document.getElementById('student-password-confirm').value;
     if (!uploadedPhoto && !selectedAvatar) { alert('Escolha uma foto ou um avatar.'); return; }
     if (!name) { alert('Digite seu nome completo.'); return; }
-    if (!password) { alert('Crie uma senha.'); return; }
-    if (password !== passwordConfirm) { alert('As senhas não coincidem.'); return; }
+
+    var loggedIn = localStorage.getItem('seminario_logged_in');
     var students = JSON.parse(localStorage.getItem('seminario_students') || '[]');
-    var exists = students.find(function(s) { return s.name.toLowerCase() === name.toLowerCase(); });
-    if (exists) { alert('Já existe uma conta com esse nome. Faça login.'); return; }
-    var student = {
-        id: 'student_' + Date.now(),
-        photo: uploadedPhoto || null,
-        avatar: selectedAvatar || null,
-        displayName: uploadedPhoto ? 'photo' : 'avatar',
-        name: name,
-        password: btoa(password),
-        createdAt: new Date().toISOString()
-    };
-    students.push(student);
-    localStorage.setItem('seminario_students', JSON.stringify(students));
-    localStorage.setItem('seminario_logged_in', student.id);
-    var msg = document.getElementById('profile-saved-msg');
-    msg.style.display = 'block';
-    setTimeout(function() {
-        msg.style.display = 'none';
+
+    if (loggedIn) {
+        // UPDATE existing profile
+        var student = students.find(function(s) { return s.id === loggedIn; });
+        if (!student) { alert('Erro: conta não encontrada.'); return; }
+
+        // Check name conflict (if changing name)
+        var nameTaken = students.find(function(s) {
+            return s.id !== loggedIn && s.name.toLowerCase() === name.toLowerCase();
+        });
+        if (nameTaken) { alert('Já existe outra conta com esse nome.'); return; }
+
+        student.name = name;
+        student.photo = uploadedPhoto || null;
+        student.avatar = selectedAvatar || null;
+        student.displayName = uploadedPhoto ? 'photo' : 'avatar';
+
+        // Update password only if they typed a new one
+        if (password) {
+            if (password !== passwordConfirm) { alert('As senhas não coincidem.'); return; }
+            student.password = btoa(password);
+        }
+
+        localStorage.setItem('seminario_students', JSON.stringify(students));
         updateHeaderAvatar();
-        navigateTo('home', 'Seminário');
-    }, 2000);
+
+        // Clear password fields
+        document.getElementById('student-password').value = '';
+        document.getElementById('student-password-confirm').value = '';
+
+        var msg = document.getElementById('profile-saved-msg');
+        msg.style.display = 'block';
+        setTimeout(function() { msg.style.display = 'none'; }, 3000);
+    } else {
+        // CREATE new profile (original logic)
+        if (!password) { alert('Crie uma senha.'); return; }
+        if (password !== passwordConfirm) { alert('As senhas não coincidem.'); return; }
+
+        var exists = students.find(function(s) { return s.name.toLowerCase() === name.toLowerCase(); });
+        if (exists) { alert('Já existe uma conta com esse nome. Faça login.'); return; }
+
+        var newStudent = {
+            id: 'student_' + Date.now(),
+            photo: uploadedPhoto || null,
+            avatar: selectedAvatar || null,
+            displayName: uploadedPhoto ? 'photo' : 'avatar',
+            name: name,
+            password: btoa(password),
+            createdAt: new Date().toISOString()
+        };
+        students.push(newStudent);
+        localStorage.setItem('seminario_students', JSON.stringify(students));
+        localStorage.setItem('seminario_logged_in', newStudent.id);
+
+        var msg2 = document.getElementById('profile-saved-msg');
+        msg2.style.display = 'block';
+        setTimeout(function() {
+            msg2.style.display = 'none';
+            updateHeaderAvatar();
+            navigateTo('home', 'Seminário');
+        }, 2000);
+    }
 }
 
 function showForgotPassword() {
@@ -266,6 +338,10 @@ function navigateTo(pageId, title) {
         homeIcons.classList.add('hidden');
         settingsIcon.classList.add('hidden');
     }
+
+        // ADD THIS LINE — load profile data when visiting profile page
+    if (pageId === 'profile') { loadProfileForEditing(); }
+    
     window.scrollTo(0, 0);
 }
 
