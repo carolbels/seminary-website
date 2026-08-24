@@ -1,0 +1,12 @@
+seminario/
+├── index.html
+├── style.css
+├── app.js
+├── README.md
+└── avatars/
+    ├── moisos.png
+    ├── davi.png
+    ├── ester.png
+    ├── rute.png
+    ├── jose.png
+    └── rebeca.png

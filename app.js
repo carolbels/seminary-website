@@ -1,3 +1,20 @@
+// 
+// SEMINÁRIO — DADOS E LÓGICA
+// 
+
+// --- AVATAR DATA ---
+const avatars = [
+    { id: "moises", name: "Moisés",  file: "avatars/moises.png" },<br/>
+    { id: "davi",   name: "Davi",    file: "avatars/davi.png" },<br/>
+    { id: "ester",  name: "Ester",   file: "avatars/ester.png" },<br/>
+    { id: "rute",   name: "Rute",    file: "avatars/rute.png" },<br/>
+    { id: "jose",   name: "José",    file: "avatars/jose.png" },<br/>
+    { id: "rebeca", name: "Rebeca",  file: "avatars/rebeca.png" }
+];
+
+let selectedAvatar = null;
+let uploadedPhoto = null;
+
 // --- MOCK DATA ---
 const scriptures = [
     { ref: "1 Néfi 3:7", text: "Eu irei e cumprirei as ordens do Senhor..." },<br/>
@@ -60,134 +77,10 @@ const makeupLessons = [
     { title: "Néfi e o Labão", date: "12 Ago", material: "pdf_aula_03.pdf" }
 ];
 
-// --- NAVIGATION ---
-function navigateTo(pageId, title) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(pageId).classList.add('active');
-    document.getElementById('page-title').innerText = title;
+// 
+// PROFILE FUNCTIONS
+// 
 
-    const backBtn = document.getElementById('back-btn');
-    const homeIcons = document.getElementById('home-icons');
-    const settingsIcon = document.getElementById('settings-icon');
-
-    if (pageId === 'home') {
-        backBtn.classList.add('hidden');
-        homeIcons.classList.remove('hidden');
-        settingsIcon.classList.remove('hidden');
-    } else {
-        backBtn.classList.remove('hidden');
-        homeIcons.classList.add('hidden');
-        settingsIcon.classList.add('hidden');
-    }
-    window.scrollTo(0,0);
-}
-
-function goBack() {
-    navigateTo('home', 'Seminário');
-}
-
-// --- RENDERING ---
-function renderScriptures(filter = "") {
-    const grid = document.getElementById('scripture-grid');
-    grid.innerHTML = "";
-    scriptures.filter(s => s.ref.toLowerCase().includes(filter.toLowerCase())).forEach(s => {
-        grid.innerHTML += `<div class="scripture-card"><strong>${s.ref}</strong><p>${s.text}</p></div>`;
-    });
-}
-
-function filterScriptures() {
-    const val = document.getElementById('scripture-search').value;
-    renderScriptures(val);
-}
-
-function renderChallenges() {
-    const list = document.getElementById('challenges-list');
-    list.innerHTML = "";
-    challenges.forEach(c => {
-        list.innerHTML += `<div class="item-list"><span>${c.date} - ${c.title}</span><span class="badge ${c.status === 'Concluído' ? 'done' : 'pending'}">${c.status}</span></div>`;
-    });
-}
-
-function renderLessons() {
-    const list = document.getElementById('weekly-lessons');
-    list.innerHTML = "";
-    weeklyLessons.forEach(l => {
-        list.innerHTML += `<div class="item-list"><div><strong>${l.day}</strong>: ${l.title}</div><span class="badge ${l.status === 'Concluído' ? 'done' : 'pending'}">${l.status}</span></div>`;
-    });
-    // Update main lesson card
-    document.getElementById('lesson-title').innerText = weeklyLessons[2].title;
-    document.getElementById('lesson-ref').innerText = weeklyLessons[2].ref;
-    const points = document.getElementById('lesson-points');
-    points.innerHTML = "<li>Entender o simbolismo da árvore</li><li>Identificar os 4 grupos de pessoas</li>";
-}
-
-function renderAttendance() {
-    document.getElementById('stat-pres').innerText = attendanceData.present;
-    document.getElementById('stat-abs').innerText = attendanceData.absent;
-    document.getElementById('stat-rate').innerText = attendanceData.rate;
-    
-    const grid = document.getElementById('calendar-grid');
-    grid.innerHTML = "";
-    attendanceData.days.forEach((d, i) => {
-        let type = d === 'P' ? 'dot-present' : (d === 'A' ? 'dot-absent' : 'dot-late');
-        grid.innerHTML += `<div class="day-dot ${type}">${i+1}</div>`;
-    });
-}
-
-function renderReading() {
-    const container = document.getElementById('reading-container');
-    container.innerHTML = "";
-    readingChunks.forEach(chunk => {
-        let acts = chunk.activities.map(a => `<div><input type="checkbox"> ${a}</div>`).join("");
-        container.innerHTML += `
-            <div class="card">
-                <h3>${chunk.title}</h3>
-                <p>${chunk.range}</p>
-                <div class="progress-container"><div class="progress-bar" style="width: ${chunk.progress}%"></div></div>
-                <div class="activities">${acts}</div>
-            </div>`;
-    });
-}
-
-function renderMakeup() {
-    const list = document.getElementById('makeup-list');
-    list.innerHTML = "";
-    makeupLessons.forEach(m => {
-        list.innerHTML += `<div class="card"><strong>${m.title}</strong><p>Falta em: ${m.date}</p><button class="btn-save" style="margin-top:10px; padding:8px">Baixar Material</button></div>`;
-    });
-}
-
-function renderAnnouncements() {
-    const list = document.getElementById('announcements-list');
-    list.innerHTML = "";
-    announcements.forEach(a => {
-        list.innerHTML += `<div class="card"><small>${a.date}</small><h4>${a.title}</h4><p>${a.content}</p></div>`;
-    });
-}
-
-// --- ACTIONS ---
-function completeChallenge() {
-    alert("Parabéns! Desafio concluído.");
-}
-
-function markLessonDone() {
-    alert("Lição marcada como estudada!");
-}
-
-// --- AVATAR DATA ---
-const avatars = [
-    { id: "moises", name: "Moisés",  file: "avatars/moises.png" },
-    { id: "davi",   name: "Davi",    file: "avatars/davi.png" },
-    { id: "ester",  name: "Ester",   file: "avatars/ester.png" },
-    { id: "rute",   name: "Rute",    file: "avatars/rute.png" },
-    { id: "jose",   name: "José",    file: "avatars/jose.png" },
-    { id: "rebeca", name: "Rebeca",  file: "avatars/rebeca.png" }
-];
-
-let selectedAvatar = null;
-let uploadedPhoto = null;
-
-// --- PHOTO PREVIEW ---
 function previewPhoto(event) {
     const file = event.target.files[0];
     if (file) {
@@ -202,71 +95,56 @@ function previewPhoto(event) {
     }
 }
 
-// --- AVATAR SELECTION ---
 function selectAvatar(avatarId) {
     selectedAvatar = avatarId;
     uploadedPhoto = null;
     document.getElementById('photo-upload').value = '';
     document.querySelectorAll('.avatar-option').forEach(el => el.classList.remove('selected'));
-    document.querySelector(`[data-avatar="${avatarId}"]`).classList.add('selected');
+    document.querySelector('[data-avatar="' + avatarId + '"]').classList.add('selected');
     updatePreview();
 }
 
-// --- UPDATE LIVE PREVIEW ---
 function updatePreview() {
     const preview = document.getElementById('preview-circle');
     preview.innerHTML = '';
-
     if (uploadedPhoto) {
-        preview.innerHTML = `<img src="${uploadedPhoto}" alt="Sua foto">`;
+        preview.innerHTML = '<img src="' + uploadedPhoto + '" alt="Sua foto">';
     } else if (selectedAvatar) {
         const avatar = avatars.find(a => a.id === selectedAvatar);
-        preview.innerHTML = `<img src="${avatar.file}" alt="${avatar.name}">`;
+        preview.innerHTML = '<img src="' + avatar.file + '" alt="' + avatar.name + '">';
     } else {
         preview.innerHTML = '<span class="preview-placeholder">📷</span>';
     }
-
     const name = document.getElementById('student-name').value;
     document.getElementById('preview-name').innerText = name || 'Seu nome aparecerá aqui';
 }
 
-// --- SAVE PROFILE ---
 function saveProfile() {
     const name = document.getElementById('student-name').value.trim();
     const password = document.getElementById('student-password').value;
     const passwordConfirm = document.getElementById('student-password-confirm').value;
-
-    // Must have a photo OR an avatar
-    if (!uploadedPhoto && !selectedAvatar) {
-        alert('Escolha uma foto ou um avatar.');
-        return;
-    }
+    if (!uploadedPhoto && !selectedAvatar) { alert('Escolha uma foto ou um avatar.'); return; }
     if (!name) { alert('Digite seu nome completo.'); return; }
     if (!password) { alert('Crie uma senha.'); return; }
     if (password !== passwordConfirm) { alert('As senhas não coincidem.'); return; }
-
     const student = {
-        id: 'student_' + Date.now(),
-        photo: uploadedPhoto || null,
-        avatar: selectedAvatar || null,
-        displayName: uploadedPhoto ? 'photo' : 'avatar',
-        name: name,
-        password: btoa(password),  // Base64 — DEMO ONLY
+        id: 'student_' + Date.now(),<br/>
+        photo: uploadedPhoto || null,<br/>
+        avatar: selectedAvatar || null,<br/>
+        displayName: uploadedPhoto ? 'photo' : 'avatar',<br/>
+        name: name,<br/>
+        password: btoa(password),<br/>
         createdAt: new Date().toISOString()
     };
-
-    // Save to localStorage (demo — real app uses Firebase)
     let students = JSON.parse(localStorage.getItem('seminario_students') || '[]');
     students.push(student);
     localStorage.setItem('seminario_students', JSON.stringify(students));
     localStorage.setItem('seminario_current_user', student.id);
-
     const msg = document.getElementById('profile-saved-msg');
     msg.style.display = 'block';
     setTimeout(() => { msg.style.display = 'none'; }, 3000);
 }
 
-// --- FORGOT PASSWORD ---
 function showForgotPassword() {
     document.getElementById('forgot-modal').style.display = 'flex';
 }
@@ -278,25 +156,135 @@ function closeForgotModal() {
 function recoverPassword() {
     const name = document.getElementById('recovery-name').value.trim();
     if (!name) { alert('Digite seu nome completo.'); return; }
-
     let students = JSON.parse(localStorage.getItem('seminario_students') || '[]');
     const student = students.find(s => s.name.toLowerCase() === name.toLowerCase());
     const result = document.getElementById('recovery-result');
-
     if (student) {
-        result.innerHTML = `
-            <div class="recovery-success">
-                <p>✅ Conta encontrada!</p>
-                <p>Sua senha é: <strong>${atob(student.password)}</strong></p>
-                <p class="hint">⚠️ Em um app real, a senha seria enviada por e-mail.</p>
-            </div>`;
+        result.innerHTML = '<div class="recovery-success"><p>✅ Conta encontrada!</p><p>Sua senha é: <strong>' + atob(student.password) + '</strong></p><p class="hint">⚠️ Em um app real, a senha seria enviada por e-mail.</p></div>';
     } else {
-        result.innerHTML = `<p class="recovery-fail">❌ Nenhum aluno encontrado com esse nome.</p>`;
+        result.innerHTML = '<p class="recovery-fail">❌ Nenhum aluno encontrado com esse nome.</p>';
     }
 }
 
-// --- INITIALIZE ---
-window.onload = () => {
+// 
+// NAVIGATION
+// 
+
+function navigateTo(pageId, title) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    document.getElementById('page-title').innerText = title;
+    const backBtn = document.getElementById('back-btn');
+    const homeIcons = document.getElementById('home-icons');
+    const settingsIcon = document.getElementById('settings-icon');
+    if (pageId === 'home') {
+        backBtn.classList.add('hidden');
+        homeIcons.classList.remove('hidden');
+        settingsIcon.classList.remove('hidden');
+    } else {
+        backBtn.classList.remove('hidden');
+        homeIcons.classList.add('hidden');
+        settingsIcon.classList.add('hidden');
+    }
+    window.scrollTo(0, 0);
+}
+
+function goBack() {
+    navigateTo('home', 'Seminário');
+}
+
+// 
+// RENDER FUNCTIONS
+// 
+
+function renderScriptures(filter) {
+    filter = filter || "";
+    const grid = document.getElementById('scripture-grid');
+    grid.innerHTML = "";
+    scriptures.filter(s => s.ref.toLowerCase().includes(filter.toLowerCase())).forEach(s => {
+        grid.innerHTML += '<div class="scripture-card"><strong>' + s.ref + '</strong><p>' + s.text + '</p></div>';
+    });
+}
+
+function filterScriptures() {
+    const val = document.getElementById('scripture-search').value;
+    renderScriptures(val);
+}
+
+function renderChallenges() {
+    const list = document.getElementById('challenges-list');
+    list.innerHTML = "";
+    challenges.forEach(c => {
+        list.innerHTML += '<div class="item-list"><span>' + c.date + ' - ' + c.title + '</span><span class="badge ' + (c.status === 'Concluído' ? 'done' : 'pending') + '">' + c.status + '</span></div>';
+    });
+}
+
+function renderLessons() {
+    const list = document.getElementById('weekly-lessons');
+    list.innerHTML = "";
+    weeklyLessons.forEach(l => {
+        list.innerHTML += '<div class="item-list"><div><strong>' + l.day + '</strong>: ' + l.title + '</div><span class="badge ' + (l.status === 'Concluído' ? 'done' : 'pending') + '">' + l.status + '</span></div>';
+    });
+    document.getElementById('lesson-title').innerText = weeklyLessons[2].title;
+    document.getElementById('lesson-ref').innerText = weeklyLessons[2].ref;
+    const points = document.getElementById('lesson-points');
+    points.innerHTML = "<li>Entender o simbolismo da árvore</li><li>Identificar os 4 grupos de pessoas</li>";
+}
+
+function renderAttendance() {
+    document.getElementById('stat-pres').innerText = attendanceData.present;
+    document.getElementById('stat-abs').innerText = attendanceData.absent;
+    document.getElementById('stat-rate').innerText = attendanceData.rate;
+    const grid = document.getElementById('calendar-grid');
+    grid.innerHTML = "";
+    attendanceData.days.forEach((d, i) => {
+        let type = d === 'P' ? 'dot-present' : (d === 'A' ? 'dot-absent' : 'dot-late');
+        grid.innerHTML += '<div class="day-dot ' + type + '">' + (i+1) + '</div>';
+    });
+}
+
+function renderReading() {
+    const container = document.getElementById('reading-container');
+    container.innerHTML = "";
+    readingChunks.forEach(chunk => {
+        let acts = chunk.activities.map(a => '<div><input type="checkbox"> ' + a + '</div>').join("");
+        container.innerHTML += '<div class="card"><h3>' + chunk.title + '</h3><p>' + chunk.range + '</p><div class="progress-container"><div class="progress-bar" style="width: ' + chunk.progress + '%"></div></div><div class="activities">' + acts + '</div></div>';
+    });
+}
+
+function renderMakeup() {
+    const list = document.getElementById('makeup-list');
+    list.innerHTML = "";
+    makeupLessons.forEach(m => {
+        list.innerHTML += '<div class="card"><strong>' + m.title + '</strong><p>Falta em: ' + m.date + '</p><button class="btn-save" style="margin-top:10px; padding:8px">Baixar Material</button></div>';
+    });
+}
+
+function renderAnnouncements() {
+    const list = document.getElementById('announcements-list');
+    list.innerHTML = "";
+    announcements.forEach(a => {
+        list.innerHTML += '<div class="card"><small>' + a.date + '</small><h4>' + a.title + '</h4><p>' + a.content + '</p></div>';
+    });
+}
+
+// 
+// ACTIONS
+// 
+
+function completeChallenge() {
+    alert("Parabéns! Desafio concluído.");
+}
+
+function markLessonDone() {
+    alert("Lição marcada como estudada!");
+}
+
+// 
+// INITIALIZE
+// 
+
+window.onload = function() {
     renderScriptures();
     renderChallenges();
     renderLessons();

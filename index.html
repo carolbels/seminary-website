@@ -2,162 +2,130 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seminário</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- HEADER -->
     <header id="app-header">
         <div class="header-left">
-            <button id="back-btn" class="hidden" onclick="goBack()">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            </button>
+            <button id="back-btn" class="hidden" onclick="goBack()">←</button>
         </div>
         <h1 id="page-title">Seminário</h1>
         <div class="header-right">
-            <button id="home-icons" class="icon-btn" onclick="navigateTo('profile', 'Perfil')">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            </button>
-            <button id="settings-icon" class="icon-btn" onclick="navigateTo('settings', 'Configurações')">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-            </button>
+            <button id="home-icons" class="icon-btn" onclick="navigateTo('profile', 'Perfil')">👤</button>
+            <button id="settings-icon" class="icon-btn" onclick="navigateTo('settings', 'Configurações')">⚙️</button>
         </div>
     </header>
 
     <main id="app-content">
-        <!-- HOME PAGE -->
+
+        <!-- ============ HOME ============ -->
         <section id="home" class="page active">
             <div class="hero-card primary" onclick="navigateTo('challenge', 'Desafio do Dia')">
-                <div class="hero-content">
-                    <span class="hero-emoji">📝</span>
-                    <div>
-                        <h3>Desafio do dia</h3>
-                        <p>Veja o desafio de hoje</p>
-                    </div>
-                </div>
+                <span class="hero-emoji">📝</span>
+                <div><h3>Desafio do dia</h3><p>Veja o desafio de hoje</p></div>
             </div>
-
             <div class="hero-card secondary" onclick="navigateTo('lesson', 'Lição do Dia')">
-                <div class="hero-content">
-                    <span class="hero-emoji">📖</span>
-                    <div>
-                        <h3>Lição do dia</h3>
-                        <p>Estude a lição atual</p>
-                    </div>
-                </div>
+                <span class="hero-emoji">📖</span>
+                <div><h3>Lição do dia</h3><p>Estude a lição atual</p></div>
             </div>
-
             <div class="button-grid">
                 <div class="grid-item" onclick="navigateTo('domino', 'Domínio de Escritura')">
-                    <span class="grid-emoji">📜</span>
-                    <p>Domínio</p>
+                    <span class="grid-emoji">📜</span><p>Domínio</p>
                 </div>
-                <div class="grid-item" onclick="navigateTo('reading', 'Leitura')">
-                    <span class="grid-emoji">📚</span>
-                    <p>Leitura</p>
+                <div class="grid-item" onclick="navigateTo('reading', 'Leitura Obrigatória')">
+                    <span class="grid-emoji">📚</span><p>Leitura</p>
                 </div>
                 <div class="grid-item" onclick="navigateTo('attendance', 'Frequência')">
-                    <span class="grid-emoji">✅</span>
-                    <p>Frequência</p>
+                    <span class="grid-emoji">✅</span><p>Frequência</p>
                 </div>
                 <div class="grid-item" onclick="navigateTo('makeup', 'Reposição')">
-                    <span class="grid-emoji">🔄</span>
-                    <p>Reposição</p>
+                    <span class="grid-emoji">🔄</span><p>Reposição</p>
                 </div>
             </div>
-
             <div class="hero-card accent" onclick="navigateTo('announcements', 'Anúncios')">
-                <div class="hero-content">
-                    <span class="hero-emoji">📢</span>
-                    <div>
-                        <h3>Anúncios</h3>
-                        <p>Veja os últimos comunicados</p>
-                    </div>
-                </div>
+                <span class="hero-emoji">📢</span>
+                <div><h3>Anúncios</h3><p>Veja os últimos comunicados</p></div>
             </div>
         </section>
 
         <!-- ============ PROFILE (1) ============ -->
         <section id="profile" class="page">
-    <!-- Live Preview -->
-    <div class="profile-preview">
-        <div class="preview-circle" id="preview-circle">
-            <span class="preview-placeholder">📷</span>
-        </div>
-        <p class="preview-name" id="preview-name">Seu nome aparecerá aqui</p>
-    </div>
-
-    <!-- Photo Upload -->
-    <div class="form-section">
-        <h4>📸 Minha foto</h4>
-        <p class="hint">Envie uma foto onde seu rosto apareça.</p>
-        <input type="file" id="photo-upload" accept="image/*" onchange="previewPhoto(event)">
-    </div>
-
-    <!-- OR -->
-    <div class="or-divider"><span>ou</span></div>
-
-    <!-- Avatar Selection -->
-    <div class="form-section">
-        <h4>🎨 Avatar do Velho Testamento</h4>
-        <p class="hint">Escolha um avatar para seu perfil.</p>
-        <div class="avatar-grid">
-            <div class="avatar-option" data-avatar="moises" onclick="selectAvatar('moises')">
-                <img src="avatars/moises.png" alt="Moisés"><span>Moisés</span>
+            <div class="profile-preview">
+                <div class="preview-circle" id="preview-circle">
+                    <span class="preview-placeholder">📷</span>
+                </div>
+                <p class="preview-name" id="preview-name">Seu nome aparecerá aqui</p>
             </div>
-            <div class="avatar-option" data-avatar="davi" onclick="selectAvatar('davi')">
-                <img src="avatars/davi.png" alt="Davi"><span>Davi</span>
-            </div>
-            <div class="avatar-option" data-avatar="ester" onclick="selectAvatar('ester')">
-                <img src="avatars/ester.png" alt="Ester"><span>Ester</span>
-            </div>
-            <div class="avatar-option" data-avatar="rute" onclick="selectAvatar('rute')">
-                <img src="avatars/rute.png" alt="Rute"><span>Rute</span>
-            </div>
-            <div class="avatar-option" data-avatar="jose" onclick="selectAvatar('jose')">
-                <img src="avatars/jose.png" alt="José"><span>José</span>
-            </div>
-            <div class="avatar-option" data-avatar="rebeca" onclick="selectAvatar('rebeca')">
-                <img src="avatars/rebeca.png" alt="Rebeca"><span>Rebeca</span>
-            </div>
-        </div>
-    </div>
 
-    <!-- Name -->
-    <div class="form-section">
-        <h4>👤 Nome</h4>
-        <label>Nome completo <span class="required">*</span></label>
-        <input type="text" id="student-name" placeholder="Seu nome completo" oninput="updatePreview()">
-    </div>
+            <div class="form-section">
+                <h4>📸 Minha foto</h4>
+                <p class="hint">Envie uma foto onde seu rosto apareça.</p>
+                <input type="file" id="photo-upload" accept="image/*" onchange="previewPhoto(event)">
+            </div>
 
-    <!-- Password -->
-    <div class="form-section">
-        <h4>🔒 Senha de acesso</h4>
-        <label>Senha <span class="required">*</span></label>
-        <input type="password" id="student-password" placeholder="Crie uma senha">
-        <label>Confirmar senha <span class="required">*</span></label>
-        <input type="password" id="student-password-confirm" placeholder="Repita a senha">
-        <a href="#" class="forgot-link" onclick="showForgotPassword()">Esqueceu sua senha?</a>
-    </div>
+            <div class="or-divider"><span>ou</span></div>
 
-    <button class="btn-save" onclick="saveProfile()">💾 Salvar Perfil</button>
-    <p id="profile-saved-msg" class="saved-msg" style="display:none;">✅ Perfil salvo com sucesso!</p>
+            <div class="form-section">
+                <h4>🎨 Avatar do Velho Testamento</h4>
+                <p class="hint">Escolha um avatar para seu perfil.</p>
+                <div class="avatar-grid">
+                    <div class="avatar-option" data-avatar="moises" onclick="selectAvatar('moises')">
+                        <img src="avatars/moises.png" alt="Moisés"><span>Moisés</span>
+                    </div>
+                    <div class="avatar-option" data-avatar="davi" onclick="selectAvatar('davi')">
+                        <img src="avatars/davi.png" alt="Davi"><span>Davi</span>
+                    </div>
+                    <div class="avatar-option" data-avatar="ester" onclick="selectAvatar('ester')">
+                        <img src="avatars/ester.png" alt="Ester"><span>Ester</span>
+                    </div>
+                    <div class="avatar-option" data-avatar="rute" onclick="selectAvatar('rute')">
+                        <img src="avatars/rute.png" alt="Rute"><span>Rute</span>
+                    </div>
+                    <div class="avatar-option" data-avatar="jose" onclick="selectAvatar('jose')">
+                        <img src="avatars/jose.png" alt="José"><span>José</span>
+                    </div>
+                    <div class="avatar-option" data-avatar="rebeca" onclick="selectAvatar('rebeca')">
+                        <img src="avatars/rebeca.png" alt="Rebeca"><span>Rebeca</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h4>👤 Nome</h4>
+                <label>Nome completo <span class="required">*</span></label>
+                <input type="text" id="student-name" placeholder="Seu nome completo" oninput="updatePreview()">
+            </div>
+
+            <div class="form-section">
+                <h4>🔒 Senha de acesso</h4>
+                <label>Senha <span class="required">*</span></label>
+                <input type="password" id="student-password" placeholder="Crie uma senha">
+                <label>Confirmar senha <span class="required">*</span></label>
+                <input type="password" id="student-password-confirm" placeholder="Repita a senha">
+                <a href="#" class="forgot-link" onclick="showForgotPassword()">Esqueceu sua senha?</a>
+            </div>
+
+            <button class="btn-save" onclick="saveProfile()">💾 Salvar Perfil</button>
+            <p id="profile-saved-msg" class="saved-msg" style="display:none;">✅ Perfil salvo com sucesso!</p>
         </section>
 
         <!-- Forgot Password Modal -->
         <div id="forgot-modal" class="modal-overlay" style="display:none;">
             <div class="modal">
-        <h3>🔑 Recuperar senha</h3>
-        <p>Digite seu nome completo:</p>
-        <input type="text" id="recovery-name" placeholder="Nome completo">
-        <button class="btn-save" onclick="recoverPassword()">Recuperar</button>
-        <button class="btn-cancel" onclick="closeForgotModal()">Cancelar</button>
-        <div id="recovery-result"></div>
+                <h3>🔑 Recuperar senha</h3>
+                <p>Digite seu nome completo:</p>
+                <input type="text" id="recovery-name" placeholder="Nome completo">
+                <button class="btn-save" onclick="recoverPassword()">Recuperar</button>
+                <button class="btn-cancel" onclick="closeForgotModal()">Cancelar</button>
+                <div id="recovery-result"></div>
             </div>
         </div>
 
-        <!-- SETTINGS PAGE -->
+        <!-- ============ SETTINGS (2) ============ -->
         <section id="settings" class="page">
             <div class="settings-list">
                 <div class="setting-item">
@@ -178,53 +146,47 @@
                 </div>
                 <div class="setting-item">
                     <span>Idioma</span>
-                    <select>
-                        <option>Português</option>
-                        <option>English</option>
-                        <option>Español</option>
-                    </select>
+                    <select><option>Português</option><option>English</option><option>Español</option></select>
                 </div>
             </div>
-            <div class="about-section">
-                <p>Versão do App: 1.0.4</p>
-            </div>
+            <div class="about-section"><p>Versão do app: 1.0.0</p></div>
         </section>
 
-        <!-- DAILY CHALLENGE PAGE -->
+        <!-- ============ DAILY CHALLENGE (3) ============ -->
         <section id="challenge" class="page">
             <div class="card current-challenge">
-                <h3>Desafio de Hoje</h3>
-                <p id="current-challenge-text">Compartilhe uma escritura com um amigo ou familiar hoje.</p>
-                <button class="btn-complete" onclick="completeChallenge()">Concluir</button>
+                <h3>🎯 Desafio de Hoje</h3>
+                <p>Compartilhe uma escritura com um amigo ou familiar hoje.</p>
+                <button class="btn-complete" onclick="completeChallenge()">✓ Concluir</button>
             </div>
             <h4>Outros desafios</h4>
             <div id="challenges-list"></div>
         </section>
 
-        <!-- TODAY'S LESSON PAGE -->
+        <!-- ============ TODAY'S LESSON (4) ============ -->
         <section id="lesson" class="page">
             <div class="card lesson-main">
-                <h3 id="lesson-title">Título da Lição</h3>
-                <p class="ref" id="lesson-ref">Referência</p>
+                <h3 id="lesson-title">Carregando...</h3>
+                <p class="ref" id="lesson-ref"></p>
                 <ul id="lesson-points"></ul>
-                <button class="btn-save" onclick="markLessonDone()">Marcar como estudada</button>
+                <button class="btn-save" onclick="markLessonDone()">✓ Marcar como estudada</button>
             </div>
             <h4>Lições da semana</h4>
             <div id="weekly-lessons"></div>
         </section>
 
-        <!-- DOMINO DE ESCRITURA PAGE -->
+        <!-- ============ DOMINO DE ESCRITURA (5) ============ -->
         <section id="domino" class="page">
-            <input type="text" id="scripture-search" placeholder="Buscar escritura..." onkeyup="filterScriptures()">
+            <input type="text" id="scripture-search" placeholder="🔍 Buscar escritura..." onkeyup="filterScriptures()">
             <div id="scripture-grid" class="scripture-grid"></div>
         </section>
 
-        <!-- LEITURA OBRIGATÓRIA PAGE -->
+        <!-- ============ LEITURA OBRIGATORIA (6) ============ -->
         <section id="reading" class="page">
             <div id="reading-container"></div>
         </section>
 
-        <!-- FREQUÊNCIA PAGE -->
+        <!-- ============ FREQUENCIA (7) ============ -->
         <section id="attendance" class="page">
             <div class="stats-row">
                 <div class="stat-box"><span>Presente</span><strong id="stat-pres">0</strong></div>
@@ -235,19 +197,24 @@
                 <span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span><span>D</span>
             </div>
             <div id="calendar-grid" class="calendar-grid"></div>
+            <div class="legend">
+                <span class="dot dot-present"></span> Presente &nbsp;
+                <span class="dot dot-absent"></span> Ausente &nbsp;
+                <span class="dot dot-late"></span> Atraso
+            </div>
         </section>
 
-        <!-- REPOSIÇÃO PAGE -->
+        <!-- ============ REPOSICAO (8) ============ -->
         <section id="makeup" class="page">
             <div id="makeup-list"></div>
         </section>
 
-        <!-- ANÚNCIOS PAGE -->
+        <!-- ============ ANUNCIOS (9) ============ -->
         <section id="announcements" class="page">
             <div id="announcements-list"></div>
         </section>
-    </main>
 
+    </main>
     <script src="app.js"></script>
 </body>
 </html>
