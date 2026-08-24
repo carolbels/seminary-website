@@ -78,27 +78,84 @@
             </div>
         </section>
 
-        <!-- PROFILE PAGE -->
+        <!-- ============ PROFILE (1) ============ -->
         <section id="profile" class="page">
-            <div class="profile-upload">
-                <div class="photo-circle">
-                    <span>Adicionar foto</span>
-                </div>
+    <!-- Live Preview -->
+    <div class="profile-preview">
+        <div class="preview-circle" id="preview-circle">
+            <span class="preview-placeholder">📷</span>
+        </div>
+        <p class="preview-name" id="preview-name">Seu nome aparecerá aqui</p>
+    </div>
+
+    <!-- Photo Upload -->
+    <div class="form-section">
+        <h4>📸 Minha foto</h4>
+        <p class="hint">Envie uma foto onde seu rosto apareça.</p>
+        <input type="file" id="photo-upload" accept="image/*" onchange="previewPhoto(event)">
+    </div>
+
+    <!-- OR -->
+    <div class="or-divider"><span>ou</span></div>
+
+    <!-- Avatar Selection -->
+    <div class="form-section">
+        <h4>🎨 Avatar do Velho Testamento</h4>
+        <p class="hint">Escolha um avatar para seu perfil.</p>
+        <div class="avatar-grid">
+            <div class="avatar-option" data-avatar="moises" onclick="selectAvatar('moises')">
+                <img src="avatars/moises.png" alt="Moisés"><span>Moisés</span>
             </div>
-            <div class="form-group">
-                <label>Nome Completo</label>
-                <input type="text" placeholder="Seu nome">
-                <label>E-mail</label>
-                <input type="email" placeholder="seu@email.com">
-                <label>Data de Nascimento</label>
-                <input type="date">
-                <label>Senha</label>
-                <input type="password" placeholder="••••••••">
-                <label>Confirmar Senha</label>
-                <input type="password" placeholder="••••••••">
-                <button class="btn-save" onclick="saveProfile()">Salvar Perfil</button>
+            <div class="avatar-option" data-avatar="davi" onclick="selectAvatar('davi')">
+                <img src="avatars/davi.png" alt="Davi"><span>Davi</span>
             </div>
+            <div class="avatar-option" data-avatar="ester" onclick="selectAvatar('ester')">
+                <img src="avatars/ester.png" alt="Ester"><span>Ester</span>
+            </div>
+            <div class="avatar-option" data-avatar="rute" onclick="selectAvatar('rute')">
+                <img src="avatars/rute.png" alt="Rute"><span>Rute</span>
+            </div>
+            <div class="avatar-option" data-avatar="jose" onclick="selectAvatar('jose')">
+                <img src="avatars/jose.png" alt="José"><span>José</span>
+            </div>
+            <div class="avatar-option" data-avatar="rebeca" onclick="selectAvatar('rebeca')">
+                <img src="avatars/rebeca.png" alt="Rebeca"><span>Rebeca</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Name -->
+    <div class="form-section">
+        <h4>👤 Nome</h4>
+        <label>Nome completo <span class="required">*</span></label>
+        <input type="text" id="student-name" placeholder="Seu nome completo" oninput="updatePreview()">
+    </div>
+
+    <!-- Password -->
+    <div class="form-section">
+        <h4>🔒 Senha de acesso</h4>
+        <label>Senha <span class="required">*</span></label>
+        <input type="password" id="student-password" placeholder="Crie uma senha">
+        <label>Confirmar senha <span class="required">*</span></label>
+        <input type="password" id="student-password-confirm" placeholder="Repita a senha">
+        <a href="#" class="forgot-link" onclick="showForgotPassword()">Esqueceu sua senha?</a>
+    </div>
+
+    <button class="btn-save" onclick="saveProfile()">💾 Salvar Perfil</button>
+    <p id="profile-saved-msg" class="saved-msg" style="display:none;">✅ Perfil salvo com sucesso!</p>
         </section>
+
+        <!-- Forgot Password Modal -->
+        <div id="forgot-modal" class="modal-overlay" style="display:none;">
+            <div class="modal">
+        <h3>🔑 Recuperar senha</h3>
+        <p>Digite seu nome completo:</p>
+        <input type="text" id="recovery-name" placeholder="Nome completo">
+        <button class="btn-save" onclick="recoverPassword()">Recuperar</button>
+        <button class="btn-cancel" onclick="closeForgotModal()">Cancelar</button>
+        <div id="recovery-result"></div>
+            </div>
+        </div>
 
         <!-- SETTINGS PAGE -->
         <section id="settings" class="page">
