@@ -11,6 +11,40 @@ const avatars = [
 let selectedAvatar = null;
 let uploadedPhoto = null;
 
+// --- TOGGLE PASSWORD VISIBILITY ---
+function togglePassword(inputId, btn) {
+    var input = document.getElementById(inputId);
+    if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+    } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+    }
+}
+
+// --- UPDATE HEADER AVATAR ---
+function updateHeaderAvatar() {
+    var loggedIn = localStorage.getItem('seminario_logged_in');
+    var headerAvatar = document.getElementById('header-avatar');
+    if (!loggedIn) {
+        headerAvatar.innerHTML = '👤';
+        return;
+    }
+    var students = JSON.parse(localStorage.getItem('seminario_students') || '[]');
+    var student = students.find(function(s) { return s.id === loggedIn; });
+    if (student) {
+        if (student.photo) {
+            headerAvatar.innerHTML = '<img src="' + student.photo + '" alt="' + student.name + '">';
+        } else if (student.avatar) {
+            var avatar = avatars.find(function(a) { return a.id === student.avatar; });
+            if (avatar) {
+                headerAvatar.innerHTML = '<img src="' + avatar.file + '" alt="' + avatar.name + '">';
+            }
+        }
+    }
+}
+
 // --- MOCK DATA ---
 const scriptures = [
     { ref: "1 Néfi 3:7", text: "Eu irei e cumprirei as ordens do Senhor..." },
@@ -142,8 +176,11 @@ function saveProfile() {
 
     var msg = document.getElementById('profile-saved-msg');
     msg.style.display = 'block';
+    var msg = document.getElementById('profile-saved-msg');
+    msg.style.display = 'block';
     setTimeout(function() {
         msg.style.display = 'none';
+        updateHeaderAvatar();
         navigateTo('home', 'Seminário');
     }, 2000);
 }
@@ -185,6 +222,7 @@ function doLogin() {
         document.getElementById('login-error').style.display = 'none';
         document.getElementById('login-name').value = '';
         document.getElementById('login-password').value = '';
+        updateHeaderAvatar();
         navigateTo('home', 'Seminário');
     } else {
         document.getElementById('login-error').style.display = 'block';
@@ -194,12 +232,14 @@ function doLogin() {
 function checkLogin() {
     var loggedIn = localStorage.getItem('seminario_logged_in');
     if (loggedIn) {
+        updateHeaderAvatar();
         navigateTo('home', 'Seminário');
     }
 }
 
 function doLogout() {
     localStorage.removeItem('seminario_logged_in');
+    document.getElementById('header-avatar').innerHTML = '👤';
     navigateTo('login', 'Seminário');
 }
 
@@ -215,6 +255,7 @@ function navigateTo(pageId, title) {
         backBtn.classList.add('hidden');
         homeIcons.classList.remove('hidden');
         settingsIcon.classList.remove('hidden');
+        updateHeaderAvatar();
     } else if (pageId === 'login') {
         backBtn.classList.add('hidden');
         homeIcons.classList.add('hidden');
