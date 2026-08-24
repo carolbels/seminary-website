@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Seminário</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header id="app-header">
+        <div class="header-left">
+            <button id="back-btn" class="hidden" onclick="goBack()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </button>
+        </div>
+        <h1 id="page-title">Seminário</h1>
+        <div class="header-right">
+            <button id="home-icons" class="icon-btn" onclick="navigateTo('profile', 'Perfil')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </button>
+            <button id="settings-icon" class="icon-btn" onclick="navigateTo('settings', 'Configurações')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </button>
+        </div>
+    </header>
+
+    <main id="app-content">
+        <!-- HOME PAGE -->
+        <section id="home" class="page active">
+            <div class="hero-card primary" onclick="navigateTo('challenge', 'Desafio do Dia')">
+                <div class="hero-content">
+                    <span class="hero-emoji">📝</span>
+                    <div>
+                        <h3>Desafio do dia</h3>
+                        <p>Veja o desafio de hoje</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-card secondary" onclick="navigateTo('lesson', 'Lição do Dia')">
+                <div class="hero-content">
+                    <span class="hero-emoji">📖</span>
+                    <div>
+                        <h3>Lição do dia</h3>
+                        <p>Estude a lição atual</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-grid">
+                <div class="grid-item" onclick="navigateTo('domino', 'Domínio de Escritura')">
+                    <span class="grid-emoji">📜</span>
+                    <p>Domínio</p>
+                </div>
+                <div class="grid-item" onclick="navigateTo('reading', 'Leitura')">
+                    <span class="grid-emoji">📚</span>
+                    <p>Leitura</p>
+                </div>
+                <div class="grid-item" onclick="navigateTo('attendance', 'Frequência')">
+                    <span class="grid-emoji">✅</span>
+                    <p>Frequência</p>
+                </div>
+                <div class="grid-item" onclick="navigateTo('makeup', 'Reposição')">
+                    <span class="grid-emoji">🔄</span>
+                    <p>Reposição</p>
+                </div>
+            </div>
+
+            <div class="hero-card accent" onclick="navigateTo('announcements', 'Anúncios')">
+                <div class="hero-content">
+                    <span class="hero-emoji">📢</span>
+                    <div>
+                        <h3>Anúncios</h3>
+                        <p>Veja os últimos comunicados</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROFILE PAGE -->
+        <section id="profile" class="page">
+            <div class="profile-upload">
+                <div class="photo-circle">
+                    <span>Adicionar foto</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Nome Completo</label>
+                <input type="text" placeholder="Seu nome">
+                <label>E-mail</label>
+                <input type="email" placeholder="seu@email.com">
+                <label>Data de Nascimento</label>
+                <input type="date">
+                <label>Senha</label>
+                <input type="password" placeholder="••••••••">
+                <label>Confirmar Senha</label>
+                <input type="password" placeholder="••••••••">
+                <button class="btn-save" onclick="saveProfile()">Salvar Perfil</button>
+            </div>
+        </section>
+
+        <!-- SETTINGS PAGE -->
+        <section id="settings" class="page">
+            <div class="settings-list">
+                <div class="setting-item">
+                    <span>Notificações</span>
+                    <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                </div>
+                <div class="setting-item">
+                    <span>Modo escuro</span>
+                    <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                </div>
+                <div class="setting-item">
+                    <span>Lembretes diários</span>
+                    <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                </div>
+                <div class="setting-item">
+                    <span>Sincronização automática</span>
+                    <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                </div>
+                <div class="setting-item">
+                    <span>Idioma</span>
+                    <select>
+                        <option>Português</option>
+                        <option>English</option>
+                        <option>Español</option>
+                    </select>
+                </div>
+            </div>
+            <div class="about-section">
+                <p>Versão do App: 1.0.4</p>
+            </div>
+        </section>
+
+        <!-- DAILY CHALLENGE PAGE -->
+        <section id="challenge" class="page">
+            <div class="card current-challenge">
+                <h3>Desafio de Hoje</h3>
+                <p id="current-challenge-text">Compartilhe uma escritura com um amigo ou familiar hoje.</p>
+                <button class="btn-complete" onclick="completeChallenge()">Concluir</button>
+            </div>
+            <h4>Outros desafios</h4>
+            <div id="challenges-list"></div>
+        </section>
+
+        <!-- TODAY'S LESSON PAGE -->
+        <section id="lesson" class="page">
+            <div class="card lesson-main">
+                <h3 id="lesson-title">Título da Lição</h3>
+                <p class="ref" id="lesson-ref">Referência</p>
+                <ul id="lesson-points"></ul>
+                <button class="btn-save" onclick="markLessonDone()">Marcar como estudada</button>
+            </div>
+            <h4>Lições da semana</h4>
+            <div id="weekly-lessons"></div>
+        </section>
+
+        <!-- DOMINO DE ESCRITURA PAGE -->
+        <section id="domino" class="page">
+            <input type="text" id="scripture-search" placeholder="Buscar escritura..." onkeyup="filterScriptures()">
+            <div id="scripture-grid" class="scripture-grid"></div>
+        </section>
+
+        <!-- LEITURA OBRIGATÓRIA PAGE -->
+        <section id="reading" class="page">
+            <div id="reading-container"></div>
+        </section>
+
+        <!-- FREQUÊNCIA PAGE -->
+        <section id="attendance" class="page">
+            <div class="stats-row">
+                <div class="stat-box"><span>Presente</span><strong id="stat-pres">0</strong></div>
+                <div class="stat-box"><span>Ausente</span><strong id="stat-abs">0</strong></div>
+                <div class="stat-box"><span>Taxa</span><strong id="stat-rate">0%</strong></div>
+            </div>
+            <div class="calendar-header">
+                <span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span><span>D</span>
+            </div>
+            <div id="calendar-grid" class="calendar-grid"></div>
+        </section>
+
+        <!-- REPOSIÇÃO PAGE -->
+        <section id="makeup" class="page">
+            <div id="makeup-list"></div>
+        </section>
+
+        <!-- ANÚNCIOS PAGE -->
+        <section id="announcements" class="page">
+            <div id="announcements-list"></div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
